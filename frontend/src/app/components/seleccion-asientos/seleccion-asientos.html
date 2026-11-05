@@ -1,39 +1,34 @@
-<div class="container mt-4">
+<div class="bus-container">
   <h2>🪑 Reserva de Asientos - Cooperativa de Buses (Ecuador)</h2>
-  
-  <div class="mb-3">
-    <label for="nombre" class="form-label">Ingresa tu Nombre / Cédula:</label>
-    <input type="text" id="nombre" [(ngModel)]="nombreUsuario" class="form-control" placeholder="Ej: Sanyi Betzabeth" />
+
+  <div class="input-group">
+    <label for="nombre">Ingresa tu Nombre / Cédula:</label>
+    <input type="text" id="nombre" [(ngModel)]="nombreUsuario" placeholder="Ej: Sanyi Betzabeth" />
   </div>
 
-  <!-- Corregido: de *-if a *ngIf -->
   <div *ngIf="errorAlerta" class="alert alert-danger">{{ errorAlerta }}</div>
   <div *ngIf="mensajeAlerta" class="alert alert-success">{{ mensajeAlerta }}</div>
 
-  <div class="row">
-    <!-- Leyenda de estados -->
-    <div class="col-12 mb-3">
-      <span class="badge bg-success me-2">Disponible</span>
-      <span class="badge bg-warning text-dark me-2">Bloqueado (10 min)</span>
-      <span class="badge bg-danger me-2">Ocupado</span>
-    </div>
+  <!-- Leyenda -->
+  <div class="leyenda">
+    <span class="badge disponible-bg">Disponible</span>
+    <span class="badge bloqueado-bg">Bloqueado (10 min)</span>
+    <span class="badge ocupado-bg">Ocupado</span>
+  </div>
 
-    <!-- Grilla de Asientos del Bus -->
-    <div class="col-md-8">
-      <div class="d-flex flex-wrap gap-2 p-3 border rounded bg-light">
-        <div *ngFor="let asiento of asientos" 
-             (click)="seleccionarYBloquear(asiento)"
-             [ngClass]="{
-               'bg-success text-white': asiento.estado === 'disponible',
-               'bg-warning text-dark': asiento.estado === 'bloqueado',
-               'bg-danger text-white': asiento.estado === 'ocupado',
-               'border border-dark border-3': asientoSeleccionado === asiento.numero_asiento
-             }"
-             class="p-3 text-center rounded shadow-sm" style="width: 70px; cursor: pointer;">
-          <div>Bus</div>
-          <strong>#{{ asiento.numero_asiento }}</strong>
-        </div>
-      </div>
+  <!-- Grilla del Bus -->
+  <div class="grid-asientos">
+    <div *ngFor="let asiento of asientos"
+         (click)="seleccionarYBloquear(asiento)"
+         class="asiento-card"
+         [ngClass]="{
+           'disponible': asiento.estado === 'disponible',
+           'bloqueado': asiento.estado === 'bloqueado',
+           'ocupado': asiento.estado === 'ocupado',
+           'seleccionado': asientoSeleccionado === asiento.numero_asiento
+         }">
+      <div>Asiento</div>
+      <strong>#{{ asiento.numero_asiento }}</strong>
     </div>
   </div>
 </div>
