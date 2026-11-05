@@ -1,0 +1,24 @@
+version: "1.0.0"
+proyecto: "Reserva de Asientos - Cooperativa de Buses (Ecuador)"
+autor: "Sanyi Betzabeth y Equipo"
+endpoints:
+  - path: "/api/asientos"
+    method: "GET"
+    descripcion: "Obtiene la lista de todos los asientos y libera automáticamente los bloqueados por más de 10 minutos."
+    respuesta_esperada:
+      - id: 1
+        numero_asiento: 1
+        estado: "disponible"
+        bloqueado_hasta: null
+        usuario_bloqueo: null
+
+  - path: "/api/asientos/bloquear"
+    method: "POST"
+    descripcion: "Bloquea un asiento por 10 minutos de forma exclusiva."
+    payload:
+      numero_asiento: 1
+      usuario: "Sanyi Betzabeth"
+    reglas_negocio:
+      - "Si el asiento está ocupado, rechazar con código 400."
+      - "Si el asiento está bloqueado por otro usuario con tiempo vigente, rechazar con código 400."
+      - "Si está disponible, actualizar estado a 'bloqueado' sumando 10 minutos con NOW() + INTERVAL '10 minutes'."
