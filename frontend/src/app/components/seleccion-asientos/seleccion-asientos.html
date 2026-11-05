@@ -1,0 +1,34 @@
+<div class="bus-container">
+  <h2>🪑 Reserva de Asientos - Cooperativa de Buses (Ecuador)</h2>
+
+  <div class="input-group">
+    <label for="nombre">Ingresa tu Nombre / Cédula:</label>
+    <input type="text" id="nombre" [(ngModel)]="nombreUsuario" placeholder="Ej: Sanyi Betzabeth" />
+  </div>
+
+  <div *ngIf="errorAlerta" class="alert alert-danger">{{ errorAlerta }}</div>
+  <div *ngIf="mensajeAlerta" class="alert alert-success">{{ mensajeAlerta }}</div>
+
+  <!-- Leyenda -->
+  <div class="leyenda">
+    <span class="badge disponible-bg">Disponible</span>
+    <span class="badge bloqueado-bg">Bloqueado (10 min)</span>
+    <span class="badge ocupado-bg">Ocupado</span>
+  </div>
+
+  <!-- Grilla del Bus -->
+  <div class="grid-asientos">
+    <div *ngFor="let asiento of asientos"
+         (click)="seleccionarYBloquear(asiento)"
+         class="asiento-card"
+         [ngClass]="{
+           'disponible': asiento.estado === 'disponible',
+           'bloqueado': asiento.estado === 'bloqueado',
+           'ocupado': asiento.estado === 'ocupado',
+           'seleccionado': asientoSeleccionado === asiento.numero_asiento
+         }">
+      <div>Asiento</div>
+      <strong>#{{ asiento.numero_asiento }}</strong>
+    </div>
+  </div>
+</div>
